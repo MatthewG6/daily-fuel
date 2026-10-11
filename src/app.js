@@ -6,6 +6,7 @@ import './style.css';
 import { KEY, NUTRIENTS, MEALS, dateKey, shiftDate, totals, emptyState, validateState, parseLabel, productFood, copyDay } from './data.js';
 import { readState, writeState } from './storage.js';
 import { icon } from './icons.js';
+import { createBarcodeScanner } from './camera.js';
 
 const $ = selector => document.querySelector(selector);
 const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -30,14 +31,15 @@ function commit(next, recovery = false) {
 }
 function modify(change) { const next = structuredClone(state); change(next); return commit(next); }
 function stopScan() {
-  scanSession++;
   scannerControls?.stop(); scannerControls = null;
+  scanSession++;
   $('#scanner-video')?.srcObject?.getTracks().forEach(track => track.stop());
 }
 function closeModal() { stopScan(); modal.close(); }
 modal.addEventListener('close', stopScan);
 modal.addEventListener('cancel', stopScan);
 document.addEventListener('visibilitychange', () => { if (document.hidden) stopScan(); });
+window.addEventListener('pagehide', stopScan);
 function showModal(title, content, subtitle = '') {
   stopScan();
   modal.innerHTML = `<div class="dialog-head"><div><p class="eyebrow">DAILY FUEL</p><h2>${esc(title)}</h2>${subtitle ? `<p class="muted">${esc(subtitle)}</p>` : ''}</div><button type="button" class="icon-button" data-close aria-label="Close dialog">${icon('close')}</button></div>${content}`;
@@ -190,33 +192,33 @@ async function lookupBarcode(code, meal) {
   }
 }
 function barcodeDialog(meal = defaultMeal()) {
-  showModal('Scan. Check. Enjoy.', `<p class="muted">Point the back camera at a food barcode, or type its number below.</p><div class="scanner-frame"><video id="scanner-video" playsinline muted></video><div class="scan-guide"></div><button class="primary" id="start-camera">${icon('camera')} Start camera</button></div><p id="barcode-status" class="footnote" role="status">Camera access starts only when you tap Start camera.</p><form id="barcode-form"><label>Barcode number<input name="barcode" inputmode="numeric" pattern="[0-9 -]{8,20}" placeholder="e.g. 737628064502" required></label><button class="primary full" type="submit">Look up food ${icon('search')}</button></form><button class="text-button full" id="barcode-manual">Enter food manually instead</button><p class="footnote">Nutrition lookup by Open Food Facts. New lookups require internet.</p>`);
+  showModal('Scan. Check. Enjoy.', `<p class="muted">Point the back camera at a food barcode, or type its number below.</p><div class="scanner-frame"><video id="scanner-video" autoplay playsinline webkit-playsinline muted aria-label="Barcode camera preview"></video><div class="scan-guide"></div><button class="primary" id="start-camera">${icon('camera')} Start camera</button></div><div class="scanner-actions"><button class="secondary full" id="stop-camera" type="button" hidden>Stop camera</button></div><p id="barcode-status" class="footnote" role="status">Camera access starts only when you tap Start camera.</p><form id="barcode-form"><label>Barcode number<input name="barcode" inputmode="numeric" pattern="[0-9 -]{8,20}" placeholder="e.g. 737628064502" required></label><button class="primary full" type="submit">Look up food ${icon('search')}</button></form><button class="text-button full" id="barcode-manual">Enter food manually instead</button><p class="footnote">Nutrition lookup by Open Food Facts. New lookups require internet.</p>`);
   $('#barcode-form').onsubmit = event => { event.preventDefault(); stopScan(); lookupBarcode(String(new FormData(event.target).get('barcode')), meal); };
   $('#barcode-manual').onclick = () => foodForm({}, { meal });
-  $('#start-camera').onclick = async event => {
-    const session = scanSession;
+  $('#stop-camera').onclick = stopScan;
+  $('#start-camera').onclick = event => {
     const button = event.currentTarget;
-    button.disabled = true;
-    $('#barcode-status').textContent = 'Opening the camera…';
-    try {
-      const { BrowserMultiFormatReader } = await import('@zxing/browser');
-      if (session !== scanSession || !modal.open) return;
-      const reader = new BrowserMultiFormatReader(undefined, { delayBetweenScanAttempts: 200 });
-      let found = false;
-      const controls = await reader.decodeFromConstraints({ video: { facingMode: { ideal: 'environment' } }, audio: false }, $('#scanner-video'), (result, error, controls) => {
-        if (result && !found && session === scanSession) {
-          found = true; controls.stop();
-          const code = result.getText();
-          stopScan(); lookupBarcode(code, meal);
-        }
-      });
-      if (session !== scanSession || !modal.open) { controls.stop(); return; }
-      scannerControls = controls;
-      button.hidden = true;
-      $('#barcode-status').textContent = 'Keep the barcode inside the frame. Good light helps.';
-    } catch {
-      if (session === scanSession && button.isConnected) { button.disabled = false; $('#barcode-status').textContent = 'Camera unavailable. Check camera permissions or type the barcode below.'; }
-    }
+    if (button.dataset.cameraPhase === 'needs-play' && scannerControls) { scannerControls.resume(); return; }
+    stopScan();
+    const session = scanSession;
+    const status = $('#barcode-status'), stopButton = $('#stop-camera');
+    scannerControls = createBarcodeScanner({
+      video: $('#scanner-video'), mediaDevices: navigator.mediaDevices,
+      loadReader: async () => { const { BrowserMultiFormatReader } = await import('@zxing/browser'); return new BrowserMultiFormatReader(undefined, { delayBetweenScanAttempts: 200 }); },
+      onState: ({ phase, message }) => {
+        if (session !== scanSession || !button.isConnected || !modal.open) return;
+        button.dataset.cameraPhase = phase;
+        button.disabled = ['requesting','starting','loading'].includes(phase);
+        button.hidden = ['loading','scanning'].includes(phase);
+        stopButton.hidden = ['idle','error'].includes(phase);
+        const action = phase === 'needs-play' ? 'Play camera' : phase === 'error' ? 'Retry camera' : button.disabled ? 'Starting camera…' : 'Start camera';
+        button.innerHTML = `${icon('camera')} ${action}`;
+        const messages = { idle:'Camera stopped. Tap Start camera to scan again, or type the barcode below.', requesting:'Requesting camera access… Respond to the permission prompt.', starting:'Starting the camera preview…', loading:'Camera ready. Preparing the barcode scanner…', scanning:'Camera is live. Keep the barcode inside the frame. Good light helps.' };
+        status.textContent = message || messages[phase];
+      },
+      onResult: code => { if (session === scanSession && modal.open) { stopScan(); lookupBarcode(code, meal); } },
+    });
+    scannerControls.start();
   };
 }
 function labelDialog(meal = defaultMeal()) {

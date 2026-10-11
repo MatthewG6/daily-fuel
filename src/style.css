@@ -406,3 +406,8 @@ dialog{border:1px solid var(--border);border-radius:24px;background:var(--surfac
 .segmented .selected{background:#234bb3;color:#ffffff}
 .backup-banner{border:1px solid #883964;background:linear-gradient(100deg,#402040,#282140)}
 .backup-banner button{color:#ff93cc}
+
+/* The live camera always occupies the frame; hidden overlays must stay hidden. */
+.scanner-frame video{position:absolute;inset:0;display:block;min-width:0;min-height:0}
+.scanner-frame>button[hidden],.scanner-actions>button[hidden]{display:none}
+.scanner-actions{margin-top:10px}.scanner-actions .secondary{min-height:44px}

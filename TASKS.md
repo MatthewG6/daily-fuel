@@ -54,3 +54,15 @@
 - GitHub Actions build/tests/deployment succeeded. Published app rendered successfully, reported offline readiness after reload, and showed no console errors.
 
 - [x] Vibrant-theme refinement: saturated blue/violet actions, magenta protein card, cyan highlights, updated icon. Production build and all 11 tests pass. Phone dashboard and goal form checked at 390px without horizontal overflow.
+
+## Camera startup repair
+- [x] User reported permission prompt followed by no camera preview in the iPhone Home Screen app; typed barcode lookup worked.
+- [x] Write six failing camera lifecycle regressions, then implement explicit inline preview startup before decoder loading.
+- [x] Add Play camera for blocked playback, Retry camera with specific failures, startup timeouts, and Stop camera. Keep manual lookup available.
+- [x] Stop tracks on success, cancellation, manual lookup, and backgrounding; release permission/decoder resources that resolve late.
+- [ ] Verify browser phone layout, production build, and updated deployment.
+- [ ] User verifies physical iPhone Home Screen preview and barcode recognition.
+- TDD: all six new lifecycle tests failed against the initial controller stub; all 18 Daily Fuel tests now pass. Tests cover request-before-import, playing frame checks, blocked autoplay/reuse, errors/timeouts/retry, late cancellation, single barcode delivery, and fatal decode failures.
+- Added a seventh regression for permission/decoder timeouts and their late resource cleanup; it passes. Production build passes and precaches all 25 assets, including the camera controller and barcode decoder.
+- Browser at 390px: scanner video has autoplay/inline attributes, Stop camera is initially hidden, and the dialog has no horizontal overflow. Manual lookup of 737628064502 still reached editable food review (200 kcal / 5g protein per 52g serving) with no console errors. No test food was added to the diary.
+- Physical iPhone camera playback and barcode recognition are not verified by these desktop checks.
