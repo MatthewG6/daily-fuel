@@ -73,6 +73,7 @@
 - [x] Move the update prompt above bottom navigation so the iPhone Dynamic Island cannot cover it; include the bottom safe-area inset and a 44px update target.
 - [x] Keep temporary toast messages above the update prompt.
 - [x] Verify narrow phone layouts and an actual service-worker update; run regression tests/build.
-- [ ] Deploy and verify the published app.
+- [x] Deploy and verify the published app.
 - [ ] User verifies the prompt on the physical iPhone.
 - Browser verification at 390×844 and 320×568: prompt stays 19px above bottom navigation, Update app has a 44px target, and there is no horizontal overflow. Toast offset is 176px while the update prompt is present. Clicking the actual waiting-worker update prompt reloads successfully and preserves the saved 2200 kcal / 150g protein goals. All 18 tests and the production build pass. Desktop browser checks do not simulate iPhone hardware safe-area insets.
+- GitHub Actions run 38120890739 successfully deployed 7114a47. Live 390px verification confirmed the prompt above navigation, a working Update app action, and no console errors. An online reload loaded the new prompt layout before activating the waiting worker. Physical iPhone placement remains for user verification.
