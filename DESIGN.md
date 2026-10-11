@@ -30,6 +30,8 @@ Nutrition-label scanning uses Tesseract.js in the browser. The image is processe
 ## Offline behavior
 Precache app shell and built assets. Saved food entry, goal changes, history, and backup work offline. New product lookup needs internet; OCR may require internet for initial model downloads. Service-worker scope stays inside the calorie tracker's repository path. App updates never clear food records.
 
+The update prompt sits above the bottom navigation, with the phone's bottom safe-area inset included. Keep its Update app button at least 44px tall and any temporary toast above the prompt. Do not place update controls at the top of the installed app, where an iPhone's Dynamic Island can obscure them.
+
 ## Acceptance criteria
 1. Opening for the first time shows an honest zero-entry dashboard and a clear goal-setting prompt; example foods are not logged as real meals.
 2. Changing goals immediately updates progress, survives reload, and accepts zero for optional macro goals.

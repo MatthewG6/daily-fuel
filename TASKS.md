@@ -61,9 +61,18 @@
 - [x] Add Play camera for blocked playback, Retry camera with specific failures, startup timeouts, and Stop camera. Keep manual lookup available.
 - [x] Stop tracks on success, cancellation, manual lookup, and backgrounding; release permission/decoder resources that resolve late.
 - [x] Verify browser phone layout, production build, and updated deployment.
-- [ ] User verifies physical iPhone Home Screen preview and barcode recognition.
+- [x] User reports the physical iPhone Home Screen camera preview now appears to work.
+- [ ] User verifies successful physical iPhone barcode recognition.
 - TDD: all six new lifecycle tests failed against the initial controller stub; all 18 Daily Fuel tests now pass. Tests cover request-before-import, playing frame checks, blocked autoplay/reuse, errors/timeouts/retry, late cancellation, single barcode delivery, and fatal decode failures.
 - Added a seventh regression for permission/decoder timeouts and their late resource cleanup; it passes. Production build passes and precaches all 25 assets, including the camera controller and barcode decoder.
 - Browser at 390px: scanner video has autoplay/inline attributes, Stop camera is initially hidden, and the dialog has no horizontal overflow. Manual lookup of 737628064502 still reached editable food review (200 kcal / 5g protein per 52g serving) with no console errors. No test food was added to the diary.
 - Physical iPhone camera playback and barcode recognition are not verified by these desktop checks.
 - GitHub Actions run 38120268224 successfully tested, built, and deployed camera repair f7d6a8b to the existing Daily Fuel URL. Home Screen camera verification remains pending the user’s retry.
+
+## Reachable app updates
+- [x] Move the update prompt above bottom navigation so the iPhone Dynamic Island cannot cover it; include the bottom safe-area inset and a 44px update target.
+- [x] Keep temporary toast messages above the update prompt.
+- [x] Verify narrow phone layouts and an actual service-worker update; run regression tests/build.
+- [ ] Deploy and verify the published app.
+- [ ] User verifies the prompt on the physical iPhone.
+- Browser verification at 390×844 and 320×568: prompt stays 19px above bottom navigation, Update app has a 44px target, and there is no horizontal overflow. Toast offset is 176px while the update prompt is present. Clicking the actual waiting-worker update prompt reloads successfully and preserves the saved 2200 kcal / 150g protein goals. All 18 tests and the production build pass. Desktop browser checks do not simulate iPhone hardware safe-area insets.

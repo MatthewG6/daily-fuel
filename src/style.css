@@ -223,8 +223,10 @@ dialog{border:1px solid var(--border);border-radius:24px;background:var(--surfac
 .label-intro p{max-width:360px;margin:15px auto}
 .ocr-details{font-size:12px;padding:13px;background:#10192a;border-radius:10px}
 .ocr-details pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;max-height:180px;overflow:auto;margin-top:15px}#toast{position:fixed;bottom:112px;left:50%;transform:translate(-50%,20px);background:#293754;color:#edf2ff;box-shadow:0 8px 30px #00000050;border-radius:13px;padding:14px 18px;font-size:12px;z-index:100;max-width:min(500px,calc(100% - 32px));width:max-content;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;line-height:1.6}#toast.visible{opacity:1;transform:translate(-50%,0);pointer-events:auto}#toast-action{color:#ff4fa7;margin-left:16px;font-size:12px;font-weight:650;text-decoration:underline}
-.update-banner{position:fixed;top:12px;left:50%;transform:translateX(-50%);background:#293754;color:#edf2ff;border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:20px;z-index:80;font-size:12px;box-shadow:0 5px 25px #00000050;width:max-content;max-width:95%}
-.update-banner button{color:#ff4fa7;font-size:12px;text-decoration:underline}
+.update-banner{position:fixed;bottom:112px;left:50%;transform:translateX(-50%);background:#293754;color:#edf2ff;border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:20px;z-index:80;font-size:12px;box-shadow:0 5px 25px #00000050;width:max-content;max-width:min(500px,calc(100% - 32px))}
+.update-banner span{min-width:0}
+.update-banner button{color:#ff4fa7;font-size:13px;text-decoration:underline;min-height:44px;flex-shrink:0}
+body:has(.update-banner) #toast{bottom:196px}
 @media(min-width:1200px){.app-shell{padding-top:10px}
 .calorie-card{padding:27px 30px}
 .energy-content{gap:35px}}
@@ -375,8 +377,8 @@ dialog{border:1px solid var(--border);border-radius:24px;background:var(--surfac
 .option-card{padding:15px 13px;gap:12px}
 .option-card strong{font-size:12px}
 .option-card small{font-size:10px}#toast{bottom:calc(92px + env(safe-area-inset-bottom));font-size:11px}
-.update-banner{font-size:10px;gap:12px}
-.update-banner button{font-size:10px}
+.update-banner{bottom:calc(92px + env(safe-area-inset-bottom,0px));gap:12px}
+body:has(.update-banner) #toast{bottom:calc(176px + env(safe-area-inset-bottom,0px))}
 .backup-banner{font-size:10px}
 .backup-banner button{font-size:10px}}
 @media(max-width:350px){.app-shell{padding-left:14px;padding-right:14px}
