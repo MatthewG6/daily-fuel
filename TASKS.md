@@ -38,6 +38,8 @@
 - [ ] Physical phone: install, camera barcode recognition, and label-photo recognition (user verification).
 
 ## Verification record
+- [x] Dark pastel theme: update all screens, dialogs, focus states, PWA chrome, and icon; verify phone layout.
+- Dark-theme verification: 11 existing tests pass; production build passes; Today, Foods, History, Settings, goals, and both scanner dialogs checked at 390px. No horizontal overflow. Saved goals/food/history survived service-worker updates. Scanner action text contrast fixed during visual review.
 - Core red/green cycle: previous-day copy initially failed; implemented and passed.
 - Storage red/green cycle: missing write/read behavior initially failed; implemented and passed.
 - Offline red/green cycle: duplicate precache URLs initially failed (10 versus 6 unique URLs); deduplicated and passed.
