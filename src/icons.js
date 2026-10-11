@@ -1,0 +1,23 @@
+const paths = {
+  leaf: '<path d="M20 4C11 3 4 7 4 13a7 7 0 0 0 7 7c6 0 9-7 9-16Z"/><path d="M4 21 15 10"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  chevron: '<path d="m9 5 7 7-7 7"/>',
+  close: '<path d="m6 6 12 12M6 18 18 6"/>',
+  barcode: '<path d="M4 7V4h3m10 0h3v3M4 17v3h3m10 0h3v-3M7 8v8m3-8v8m4-8v8m3-8v8"/>',
+  camera: '<path d="m8 5 1-2h6l1 2h4v15H4V5Z"/><circle cx="12" cy="12" r="4"/>',
+  home: '<path d="m3 10 9-7 9 7v11H3Z"/><path d="M9 21v-8h6v8"/>',
+  book: '<path d="M3 4h7a3 3 0 0 1 3 3v14a4 4 0 0 0-4-2H3Zm10 3a3 3 0 0 1 3-3h5v15h-5a4 4 0 0 0-3 2"/>',
+  chart: '<path d="M4 3v18h17M8 17v-5m5 5V7m5 10v-8"/>',
+  settings: '<path d="M4 6h16M4 12h16M4 18h16"/><circle cx="8" cy="6" r="2" fill="currentColor"/><circle cx="16" cy="12" r="2" fill="currentColor"/><circle cx="10" cy="18" r="2" fill="currentColor"/>',
+  star: '<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9Z"/>',
+  search: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',
+  check: '<path d="m5 12 4 4L19 6"/>',
+  arrow: '<path d="M5 12h14m-6-6 6 6-6 6"/>',
+  shield: '<path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Z"/><path d="m8 12 3 3 5-6"/>',
+  download: '<path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/>',
+  copy: '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/>',
+  trash: '<path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7m4-7v7"/>',
+  edit: '<path d="m15 4 5 5-11 11H4v-5Zm-2 3 5 5"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l2 2m10 10 2 2M5 19l2-2M17 7l2-2"/>',
+};
+export function icon(name, cls = '') { return `<svg class="icon ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] || paths.leaf}</svg>`; }

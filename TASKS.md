@@ -1,0 +1,49 @@
+# Daily Fuel — development tasks
+
+## Working agreement
+- Test-driven development for nutrition calculations, saved records, imports, and scanning parsers: write behavior tests, observe the failure, implement, rerun.
+- Verify visual and interaction behavior in a browser after the app is recognizable.
+- Track completed work and verification here. Do not mark physical camera testing complete without a phone test.
+
+## Foundation
+- [x] Confirm GitHub and local development tooling.
+- [x] Inspect the existing water tracker storage model.
+- [x] Document the product and design in DESIGN.md.
+- [x] Set up Vite, barcode decoding, and browser OCR dependencies.
+- [x] Add core acceptance tests and record their initial failure.
+- [x] Implement and verify nutrition calculations, product mapping, label parsing, and backup validation.
+
+## Phone app
+- [x] Premium responsive dashboard with calorie and protein progress.
+- [x] Editable calorie, protein, carbs, fat, and fiber goals.
+- [x] Meal logging, serving/gram quantities, edit, remove, undo.
+- [x] Saved foods, favorites, search, and reuse.
+- [x] Barcode camera scanning and typed barcode lookup through Open Food Facts.
+- [x] Nutrition label OCR with editable review and no automatic logging.
+- [x] Daily history, weekly totals, and copy previous day.
+- [x] Device persistence, storage-status display, export/import, backup reminder.
+- [x] Home-screen manifest, icons, scoped offline service worker.
+
+## Verify and deliver
+- [x] Core automated tests pass.
+- [x] Production build passes.
+- [x] Browser: empty state, goals, manual logging, edit/delete/undo, favorite, history, backup, and reload persistence.
+- [ ] Browser: barcode lookup mapping and scanner failure fallback.
+- [x] Browser: OCR parsing/review flow; report any OCR engine test limits.
+- [x] Browser: narrow viewport, keyboard focus, and no horizontal overflow.
+- [x] Browser: service-worker control and offline reload.
+- [ ] Create GitHub repository and deploy with GitHub Pages.
+- [ ] Verify successful deployment and published app.
+- [ ] Physical phone: install, camera barcode recognition, and label-photo recognition (user verification).
+
+## Verification record
+- Core red/green cycle: previous-day copy initially failed; implemented and passed.
+- Storage red/green cycle: missing write/read behavior initially failed; implemented and passed.
+- Offline red/green cycle: duplicate precache URLs initially failed (10 versus 6 unique URLs); deduplicated and passed.
+- 11 core tests passing. Production build passes.
+- Browser at 390px: goals 2200 kcal / 150g protein; 1.5 portions of 200 kcal / 20g protein yielded 300 kcal / 30g; changing to 75g of a 100g serving yielded 150 kcal / 15g. Reload, delete/undo, favorites, history, and backup round-trip verified.
+- Live Open Food Facts lookup for a test barcode returned a review form with per-serving nutrition.
+- Synthetic nutrition image recognized 230 kcal, 3g protein, 37g carbs, 8g fat, 4g fiber. OCR misread the serving weight, demonstrating why review is required. No photos are uploaded by the app.
+- Offline installation initially failed from duplicate cache URLs; fixed and regression-tested. Offline readiness status verified, then server stopped and app/saved-food pages reloaded successfully.
+- Camera recognition and physical phone installation remain pending.
+- GitHub deployment pending.
