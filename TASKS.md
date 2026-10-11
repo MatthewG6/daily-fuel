@@ -52,3 +52,5 @@
 - GitHub repository: https://github.com/MatthewG6/daily-fuel
 - Published app: https://matthewg6.github.io/daily-fuel/
 - GitHub Actions build/tests/deployment succeeded. Published app rendered successfully, reported offline readiness after reload, and showed no console errors.
+
+- [x] Vibrant-theme refinement: saturated blue/violet actions, magenta protein card, cyan highlights, updated icon. Production build and all 11 tests pass. Phone dashboard and goal form checked at 390px without horizontal overflow.
