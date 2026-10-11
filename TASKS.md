@@ -28,12 +28,13 @@
 - [x] Core automated tests pass.
 - [x] Production build passes.
 - [x] Browser: empty state, goals, manual logging, edit/delete/undo, favorite, history, backup, and reload persistence.
-- [ ] Browser: barcode lookup mapping and scanner failure fallback.
+- [x] Browser: typed barcode lookup mapping.
+- [ ] Physical phone: camera permission/recognition and scanner failure fallback.
 - [x] Browser: OCR parsing/review flow; report any OCR engine test limits.
 - [x] Browser: narrow viewport, keyboard focus, and no horizontal overflow.
 - [x] Browser: service-worker control and offline reload.
-- [ ] Create GitHub repository and deploy with GitHub Pages.
-- [ ] Verify successful deployment and published app.
+- [x] Create GitHub repository and deploy with GitHub Pages.
+- [x] Verify successful deployment and published app.
 - [ ] Physical phone: install, camera barcode recognition, and label-photo recognition (user verification).
 
 ## Verification record
@@ -46,4 +47,6 @@
 - Synthetic nutrition image recognized 230 kcal, 3g protein, 37g carbs, 8g fat, 4g fiber. OCR misread the serving weight, demonstrating why review is required. No photos are uploaded by the app.
 - Offline installation initially failed from duplicate cache URLs; fixed and regression-tested. Offline readiness status verified, then server stopped and app/saved-food pages reloaded successfully.
 - Camera recognition and physical phone installation remain pending.
-- GitHub deployment pending.
+- GitHub repository: https://github.com/MatthewG6/daily-fuel
+- Published app: https://matthewg6.github.io/daily-fuel/
+- GitHub Actions build/tests/deployment succeeded. Published app rendered successfully, reported offline readiness after reload, and showed no console errors.
